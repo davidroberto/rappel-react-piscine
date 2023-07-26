@@ -1,5 +1,4 @@
 import "./App.css";
-import ContactForm from "./ContactForm";
 import Footer from "./Footer";
 import Header from "./Header";
 import MealsList from "./MealsList";
@@ -9,7 +8,6 @@ function App() {
     <>
       <Header />
       <MealsList />
-      <ContactForm />
       <Footer />
     </>
   );
