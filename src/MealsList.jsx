@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const MealsList = () => {
   const [meals, setMeals] = useState([]);
@@ -10,9 +10,16 @@ const MealsList = () => {
     setMeals(responseJson.meals);
   };
 
-  if (meals.length === 0) {
+  // useEffect permet d'executer du code
+  // quand le composant est chargé
+
+  // il permet de préciser si on veut executer le code
+  // à chaque fois que le composant est chargé,
+  // uniquement une fois au premier chargement du composant (fetch)
+  // ou quand certaines variables sont modifiées (comme des filtres qui engendrent besoin de données raffraichies)
+  useEffect(() => {
     fetchMeals();
-  }
+  }, []);
 
   return (
     <div>
