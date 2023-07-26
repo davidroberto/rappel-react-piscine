@@ -3,12 +3,14 @@ import Footer from "./Footer";
 import Header from "./Header";
 import MealsList from "./MealsList";
 import RandomMeal from "./RandomMeal";
+import SearchMeals from "./SearchMeals";
 
 function App() {
   return (
     <>
       <Header />
-      <RandomMeal />
+      <SearchMeals />
+      {/* <RandomMeal /> */}
       {/* <MealsList /> */}
       <Footer />
     </>

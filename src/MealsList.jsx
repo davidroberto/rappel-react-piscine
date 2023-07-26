@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 const MealsList = () => {
   const [meals, setMeals] = useState([]);
+  const [detailMeal, setDetailMeal] = useState(null);
 
   const fetchMeals = async () => {
     const responseApi = await fetch("https://www.themealdb.com/api/json/v1/1/search.php?s=");
@@ -10,13 +11,13 @@ const MealsList = () => {
     setMeals(responseJson.meals);
   };
 
-  // useEffect permet d'executer du code
-  // quand le composant est chargé
+  const handleDetailsClick = async (idMeal) => {
+    const responseApi = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`);
+    const responseJson = await responseApi.json();
 
-  // il permet de préciser si on veut executer le code
-  // à chaque fois que le composant est chargé,
-  // uniquement une fois au premier chargement du composant (fetch)
-  // ou quand certaines variables sont modifiées (comme des filtres qui engendrent besoin de données raffraichies)
+    setDetailMeal(responseJson.meals[0]);
+  };
+
   useEffect(() => {
     fetchMeals();
   }, []);
@@ -24,10 +25,19 @@ const MealsList = () => {
   return (
     <div>
       <h1>Meals List</h1>
+
+      {detailMeal && (
+        <div>
+          <h2>Détails de la recette</h2>
+          <p>{detailMeal.strInstructions}</p>
+        </div>
+      )}
+
       <div>
         {meals.map((meal) => (
           <div key={meal.idMeal}>
             <h2>{meal.strMeal}</h2>
+            <button onClick={() => handleDetailsClick(meal.idMeal)}>Afficher le détail</button>
           </div>
         ))}
       </div>
