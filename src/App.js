@@ -2,12 +2,14 @@ import "./App.css";
 import Footer from "./Footer";
 import Header from "./Header";
 import MealsList from "./MealsList";
+import RandomMeal from "./RandomMeal";
 
 function App() {
   return (
     <>
       <Header />
-      <MealsList />
+      <RandomMeal />
+      {/* <MealsList /> */}
       <Footer />
     </>
   );
