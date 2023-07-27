@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import MealsByCategory from "./MealsByCategory";
 
 const ListCategories = () => {
   const [categories, setCategories] = useState([]);
   const [mealsByCategory, setMealsByCategory] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchCategories = async () => {
     const categoriesResponse = await fetch("https://www.themealdb.com/api/json/v1/1/categories.php");
@@ -15,35 +17,28 @@ const ListCategories = () => {
     fetchCategories();
   }, []);
 
-  const handleCategoryClick = async (titleCategory) => {
-    const responseMeals = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${titleCategory}`);
-    const mealsByCategory = await responseMeals.json();
+  const handleCategoryClick = async (categoryTitle) => {
+    setIsLoading(true);
 
-    setMealsByCategory(mealsByCategory.meals);
+    const mealsByCategoryResponse = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryTitle}`
+    );
+    const mealsByCategoryJs = await mealsByCategoryResponse.json();
+    setMealsByCategory(mealsByCategoryJs.meals);
+
+    setIsLoading(false);
   };
 
   return (
     <div>
-      <h2>Categories</h2>
-
-      <div>
-        <p>Recettes pour la catégorie sélectionnée :</p>
-        {mealsByCategory.map((meal) => {
-          return (
-            <div key={meal.idMeal}>
-              <h3>{meal.strMeal}</h3>
-            </div>
-          );
-        })}
-      </div>
-
+      <MealsByCategory isLoading={isLoading} mealsByCategory={mealsByCategory} />
       {categories.map((category) => {
         return (
           <div key={category.idCategory}>
             <h3>{category.strCategory}</h3>
             <img src={category.strCategoryThumb} alt={category.strCategory} />
             <p>{category.strCategoryDescription}</p>
-            <button onClick={() => handleCategoryClick(category.strCategory)}>Voir toutes les recettes</button>
+            <button onClick={() => handleCategoryClick(category.strCategory)}>Afficher les recettes reliées</button>
           </div>
         );
       })}
